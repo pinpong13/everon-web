@@ -14,20 +14,24 @@ export default function ContactForm() {
     setStatus("submitting");
     setErrorMsg("");
 
-    const data = Object.fromEntries(new FormData(e.currentTarget).entries());
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    fd.append("_subject", `New VIP request — ${fd.get("name") || "unknown"}`);
+    fd.append("_template", "table");
+    fd.append("_captcha", "false");
 
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) {
-        const j = await res.json().catch(() => ({}));
-        throw new Error(j.error || "Something went wrong");
-      }
+      const res = await fetch(
+        "https://formsubmit.co/ajax/solutionseveronllc@gmail.com",
+        {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: fd,
+        }
+      );
+      if (!res.ok) throw new Error("Submission failed");
       setStatus("ok");
-      e.currentTarget.reset();
+      form.reset();
     } catch (err) {
       setStatus("error");
       setErrorMsg(err instanceof Error ? err.message : "Something went wrong");
