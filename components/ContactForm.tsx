@@ -1,43 +1,6 @@
-"use client";
-
-import { useState } from "react";
 import Reveal from "./Reveal";
 
-type Status = "idle" | "submitting" | "ok" | "error";
-
 export default function ContactForm() {
-  const [status, setStatus] = useState<Status>("idle");
-  const [errorMsg, setErrorMsg] = useState<string>("");
-
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setStatus("submitting");
-    setErrorMsg("");
-
-    const form = e.currentTarget;
-    const fd = new FormData(form);
-    fd.append("_subject", `New VIP request — ${fd.get("name") || "unknown"}`);
-    fd.append("_template", "table");
-    fd.append("_captcha", "false");
-
-    try {
-      const res = await fetch(
-        "https://formsubmit.co/ajax/solutionseveronllc@gmail.com",
-        {
-          method: "POST",
-          headers: { Accept: "application/json" },
-          body: fd,
-        }
-      );
-      if (!res.ok) throw new Error("Submission failed");
-      setStatus("ok");
-      form.reset();
-    } catch (err) {
-      setStatus("error");
-      setErrorMsg(err instanceof Error ? err.message : "Something went wrong");
-    }
-  }
-
   return (
     <section id="contact" className="py-24 md:py-32 border-t border-border bg-surface">
       <div className="max-w-5xl mx-auto px-6 lg:px-10">
@@ -55,7 +18,17 @@ export default function ContactForm() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <form onSubmit={onSubmit} className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5">
+          <form
+            action="https://formsubmit.co/solutionseveronllc@gmail.com"
+            method="POST"
+            className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5"
+          >
+            <input type="hidden" name="_subject" value="New VIP request from everonconcerts.com" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_next" value="https://everonconcerts.com/thanks" />
+            <input type="text" name="_honey" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
+
             <Field label="Full Name" name="name" required />
             <Field label="Email" name="email" type="email" required />
             <Field label="Phone" name="phone" type="tel" />
@@ -75,24 +48,13 @@ export default function ContactForm() {
               />
             </div>
 
-            <div className="md:col-span-2 flex flex-col sm:flex-row sm:items-center gap-6 mt-2">
+            <div className="md:col-span-2 mt-2">
               <button
                 type="submit"
-                disabled={status === "submitting"}
-                className="inline-flex items-center justify-center px-8 py-4 bg-accent text-black font-medium tracking-wide hover:bg-accent-bright transition-colors disabled:opacity-50 rounded-full"
+                className="inline-flex items-center justify-center px-8 py-4 bg-accent text-black font-medium tracking-wide hover:bg-accent-bright transition-colors rounded-full"
               >
-                {status === "submitting" ? "Sending…" : "Send Request"}
+                Send Request
               </button>
-              {status === "ok" && (
-                <p className="text-accent-bright text-sm">
-                  Thanks. We&apos;ll be in touch within 24 hours.
-                </p>
-              )}
-              {status === "error" && (
-                <p className="text-red-400 text-sm">
-                  {errorMsg || "Something went wrong. Please try again."}
-                </p>
-              )}
             </div>
           </form>
         </Reveal>
