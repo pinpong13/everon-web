@@ -1,6 +1,45 @@
+"use client";
+
+import { useState } from "react";
 import Reveal from "./Reveal";
 
+const ACCESS_KEY = "e5d45274-19e4-463c-8a66-93a5aee11d6c";
+
+type Status = "idle" | "submitting" | "ok" | "error";
+
 export default function ContactForm() {
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setStatus("submitting");
+    setErrorMsg("");
+
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    fd.append("access_key", ACCESS_KEY);
+    fd.append("subject", `New VIP request from ${fd.get("name") || "everonconcerts.com"}`);
+    fd.append("from_name", "Everon Concerts Website");
+
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: fd,
+      });
+      const json = await res.json().catch(() => ({ success: false }));
+      if (!res.ok || !json.success) {
+        throw new Error(json.message || "Submission failed");
+      }
+      setStatus("ok");
+      form.reset();
+    } catch (err) {
+      setStatus("error");
+      setErrorMsg(err instanceof Error ? err.message : "Something went wrong");
+    }
+  }
+
   return (
     <section id="contact" className="py-24 md:py-32 border-t border-border bg-surface">
       <div className="max-w-5xl mx-auto px-6 lg:px-10">
@@ -18,16 +57,8 @@ export default function ContactForm() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <form
-            action="https://formsubmit.co/solutionseveronllc@gmail.com"
-            method="POST"
-            className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5"
-          >
-            <input type="hidden" name="_subject" value="New VIP request from everonconcerts.com" />
-            <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="_template" value="table" />
-            <input type="hidden" name="_next" value="https://everonconcerts.com/thanks" />
-            <input type="text" name="_honey" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
+          <form onSubmit={onSubmit} className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5">
+            <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" />
 
             <Field label="Full Name" name="name" required />
             <Field label="Email" name="email" type="email" required />
@@ -48,13 +79,24 @@ export default function ContactForm() {
               />
             </div>
 
-            <div className="md:col-span-2 mt-2">
+            <div className="md:col-span-2 flex flex-col sm:flex-row sm:items-center gap-6 mt-2">
               <button
                 type="submit"
-                className="inline-flex items-center justify-center px-8 py-4 bg-accent text-black font-medium tracking-wide hover:bg-accent-bright transition-colors rounded-full"
+                disabled={status === "submitting" || status === "ok"}
+                className="inline-flex items-center justify-center px-8 py-4 bg-accent text-black font-medium tracking-wide hover:bg-accent-bright transition-colors disabled:opacity-50 rounded-full"
               >
-                Send Request
+                {status === "submitting" ? "Sending…" : status === "ok" ? "Sent" : "Send Request"}
               </button>
+              {status === "ok" && (
+                <p className="text-accent-bright text-sm">
+                  Thanks. We&apos;ll be in touch within 24 hours.
+                </p>
+              )}
+              {status === "error" && (
+                <p className="text-red-400 text-sm">
+                  {errorMsg || "Something went wrong. Please try again or email us directly."}
+                </p>
+              )}
             </div>
           </form>
         </Reveal>
