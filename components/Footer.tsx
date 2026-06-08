@@ -1,22 +1,4 @@
-import { Mail } from "lucide-react";
-
-function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <rect x="3" y="3" width="18" height="18" rx="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.5" cy="6.5" r="0.9" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
-function TikTokIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <path d="M16.5 3a5.5 5.5 0 0 0 4 4v3a8.5 8.5 0 0 1-4-1.1V15a6 6 0 1 1-6-6 6 6 0 0 1 1 .1V12a3 3 0 1 0 2 2.8V3z" />
-    </svg>
-  );
-}
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -34,33 +16,6 @@ export default function Footer() {
               All-inclusive VIP concert experiences. Tickets, hospitality, hotels,
               transfer and concierge — handled.
             </p>
-            <div className="mt-6 flex items-center gap-4">
-              <a
-                href="https://instagram.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="w-10 h-10 inline-flex items-center justify-center border border-border hover:border-accent hover:text-accent-bright transition-colors rounded-full"
-              >
-                <InstagramIcon className="w-4 h-4" />
-              </a>
-              <a
-                href="https://tiktok.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="TikTok"
-                className="w-10 h-10 inline-flex items-center justify-center border border-border hover:border-accent hover:text-accent-bright transition-colors rounded-full"
-              >
-                <TikTokIcon className="w-4 h-4" />
-              </a>
-              <a
-                href="mailto:solutionseveronllc@gmail.com"
-                aria-label="Email"
-                className="w-10 h-10 inline-flex items-center justify-center border border-border hover:border-accent hover:text-accent-bright transition-colors rounded-full"
-              >
-                <Mail className="w-4 h-4" />
-              </a>
-            </div>
           </div>
 
           <div>
@@ -68,11 +23,12 @@ export default function Footer() {
               Explore
             </p>
             <ul className="space-y-2 text-sm text-foreground/70">
-              <li><a href="#included" className="hover:text-accent-bright">Experience</a></li>
-              <li><a href="#tiers" className="hover:text-accent-bright">Packages</a></li>
-              <li><a href="#events" className="hover:text-accent-bright">Events</a></li>
-              <li><a href="#why" className="hover:text-accent-bright">Why Us</a></li>
-              <li><a href="#contact" className="hover:text-accent-bright">Reserve</a></li>
+              <li><a href="/#included" className="hover:text-accent-bright">Experience</a></li>
+              <li><a href="/#how" className="hover:text-accent-bright">How It Works</a></li>
+              <li><a href="/#tiers" className="hover:text-accent-bright">Packages</a></li>
+              <li><a href="/#events" className="hover:text-accent-bright">Events</a></li>
+              <li><a href="/#faq" className="hover:text-accent-bright">FAQ</a></li>
+              <li><a href="/#contact" className="hover:text-accent-bright">Reserve</a></li>
             </ul>
           </div>
 
@@ -98,7 +54,11 @@ export default function Footer() {
             © 2026 Everon Solutions LLC. All rights reserved. · Rodrigo Perez, Sole Member ·
             4111 Hollowtrail Dr, Tampa FL 33624
           </p>
-          <p className="tracking-wider uppercase">Retail &amp; Wholesale</p>
+          <div className="flex items-center gap-5">
+            <Link href="/privacy" className="hover:text-accent-bright">Privacy</Link>
+            <Link href="/terms" className="hover:text-accent-bright">Terms</Link>
+            <span className="tracking-wider uppercase">Retail &amp; Wholesale</span>
+          </div>
         </div>
       </div>
     </footer>

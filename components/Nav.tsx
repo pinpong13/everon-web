@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react";
 
 const links = [
-  { href: "#included", label: "Experience" },
-  { href: "#tiers", label: "Packages" },
-  { href: "#events", label: "Events" },
-  { href: "#why", label: "Why Us" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#included", label: "Experience" },
+  { href: "/#how", label: "How" },
+  { href: "/#tiers", label: "Packages" },
+  { href: "/#events", label: "Events" },
+  { href: "/#faq", label: "FAQ" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export default function Nav() {
@@ -30,7 +31,7 @@ export default function Nav() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
-        <a href="#top" className="font-display text-xl tracking-wide">
+        <a href="/" className="font-display text-xl tracking-wide">
           <span className="gold-text">EVERON</span>
           <span className="text-foreground/70 ml-1 text-sm tracking-[0.3em]">SOLUTIONS</span>
         </a>
@@ -42,7 +43,7 @@ export default function Nav() {
           ))}
         </nav>
         <a
-          href="#contact"
+          href="/#contact"
           className="hidden md:inline-flex items-center px-4 py-2 text-sm border border-accent/60 text-accent-bright hover:bg-accent hover:text-black transition-colors rounded-full"
         >
           Reserve
@@ -71,7 +72,7 @@ export default function Nav() {
               </a>
             ))}
             <a
-              href="#contact"
+              href="/#contact"
               onClick={() => setOpen(false)}
               className="mt-2 inline-flex items-center justify-center px-4 py-2 border border-accent/60 text-accent-bright rounded-full"
             >

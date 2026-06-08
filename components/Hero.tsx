@@ -22,7 +22,7 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
           className="text-accent-bright text-xs tracking-[0.4em] uppercase mb-6"
         >
-          All-Inclusive VIP Concert Experiences
+          All-Inclusive VIP Experiences · United States & Europe
         </motion.p>
 
         <motion.h1
@@ -73,15 +73,17 @@ export default function Hero() {
           transition={{ duration: 1, delay: 0.8 }}
           className="mt-20 flex flex-wrap gap-x-10 gap-y-3 text-xs tracking-[0.25em] uppercase text-foreground/50"
         >
-          <span>Bad Bunny</span>
+          <span>FIFA World Cup 2026</span>
+          <span className="text-accent/60">·</span>
+          <span>NFL Madrid</span>
+          <span className="text-accent/60">·</span>
+          <span>NFL Berlin</span>
+          <span className="text-accent/60">·</span>
+          <span>Bruno Mars</span>
           <span className="text-accent/60">·</span>
           <span>Taylor Swift</span>
           <span className="text-accent/60">·</span>
           <span>Coldplay</span>
-          <span className="text-accent/60">·</span>
-          <span>F1 Grand Prix</span>
-          <span className="text-accent/60">·</span>
-          <span>NFL Brazil</span>
         </motion.div>
       </div>
     </section>
